@@ -153,16 +153,16 @@ const bindEvents = () => {
   });
   client.on("chat", async packet => {
     let parsedMessage = JSON.parse(packet.message);
-    console.log(parsedMessage);
     if (process.env.debug) console.log(parsedMessage);
     if (
-      parsedMessage.translate != "chat.type.text" ||
-      parsedMessage.with[0].text == client.username
+      (parsedMessage.translate != "chat.type.text" ||
+      parsedMessage.with[0].text == client.username) &&
+      (!parsedMessage.extra[0].text)
     )
       return;
     let message = {
-      text: parsedMessage.with[1],
-      author: `<${parsedMessage.with[0].text}>`
+      text: parsedMessage.with ? parsedMessage.with[1] : parsedMessage.extra[0].text.replace(/<.*>/, ''),
+      author: parsedMessage.with ? `<${parsedMessage.with[0].text}>` : parsedMessage.extra[0].text.match(/<.*>/, '')
     };
     console.log(message.author + " | " + message.text);
     if (awaitingCustomInput && awaitingCustomInput == "moveDelay") {
