@@ -162,7 +162,7 @@ const bindEvents = () => {
       return;
     let message = {
       text: parsedMessage.with ? parsedMessage.with[1] : parsedMessage.extra[0].text.replace(/<.*>/, ''),
-      author: parsedMessage.with ? `<${parsedMessage.with[0].text}>` : parsedMessage.extra[0].text.match(/<.*>/, '')
+      author: parsedMessage.with ? `<${parsedMessage.with[0].text}>` : parsedMessage.extra[0].text.match(/<.*>/)
     };
     console.log(message.author + " | " + message.text);
     if (awaitingCustomInput && awaitingCustomInput == "moveDelay") {
@@ -296,14 +296,6 @@ const bindEvents = () => {
           message: 'Остановить движение можно прописав "$Стоп".'
         });
         break;
-      case "двигайся-круг":
-        const moveInCircle = () => {
-
-        }
-        const calculateCoordinates = (originalCoordinates) => {
-          let { x, y, z } = originalCoordinates
-          let newX = x + 2
-        }
       case "стоп":
         if (!moveTimeoutActive)
           return client.write("chat", { message: "Бот не двигается." });
