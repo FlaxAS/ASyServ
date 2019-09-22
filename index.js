@@ -157,15 +157,17 @@ const bindEvents = () => {
     if (
       (parsedMessage.translate != "chat.type.text" ||
       parsedMessage.with[0].text == client.username) &&
-      (!parsedMessage.extra[0].text)
+      (!parsedMessage.extra)
     )
       return;
+    if (parsedMessage.extra) {
+      if (!parsedMessage.extra[0].text.match(/<.*>/)) return
+    }
     let message = {
       text: parsedMessage.with ? parsedMessage.with[1] : parsedMessage.extra[0].text.replace(/<.*> /, ''),
-      author: parsedMessage.with ? `<${parsedMessage.with[0].text}>` : parsedMessage.extra[0].text.match(/<.*>/)
+      author: parsedMessage.with ? parsedMessage.with[0].text : parsedMessage.extra[0].text.match(/<.*>/)[0]
     };
-    if (message.author.replace(/<|>/) == client.username) return
-    console.log(message.author + " | " + message.text);
+    if (message.author.replace(/<|>/g, '') == client.username) return
     if (awaitingCustomInput && awaitingCustomInput == "moveDelay") {
       if (isNaN(message.text))
         return client.write("chat", {
@@ -264,6 +266,7 @@ const bindEvents = () => {
                 flags: 0,
                 teleportId: packet.teleportId
               };
+              if (process.env.debug) console.log("Движение:", newpacket, packet)
               client.write("position", newpacket);
               client.write("teleport_confirm", {
                 teleportId: packet.teleportId
