@@ -161,7 +161,7 @@ const bindEvents = () => {
     )
       return;
     let message = {
-      text: parsedMessage.with ? parsedMessage.with[1] : parsedMessage.extra[0].text.replace(/<.*>/, ''),
+      text: parsedMessage.with ? parsedMessage.with[1] : parsedMessage.extra[0].text.replace(/<.*> /, ''),
       author: parsedMessage.with ? `<${parsedMessage.with[0].text}>` : parsedMessage.extra[0].text.match(/<.*>/)
     };
     console.log(message.author + " | " + message.text);
