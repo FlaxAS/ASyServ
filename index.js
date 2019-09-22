@@ -164,6 +164,7 @@ const bindEvents = () => {
       text: parsedMessage.with ? parsedMessage.with[1] : parsedMessage.extra[0].text.replace(/<.*> /, ''),
       author: parsedMessage.with ? `<${parsedMessage.with[0].text}>` : parsedMessage.extra[0].text.match(/<.*>/)
     };
+    if (message.author.replace(/<|>/) == client.username) return
     console.log(message.author + " | " + message.text);
     if (awaitingCustomInput && awaitingCustomInput == "moveDelay") {
       if (isNaN(message.text))
